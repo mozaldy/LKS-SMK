@@ -10,7 +10,7 @@
 - [Daftar Isi](#daftar-isi)
 - [Hari Kedua](#hari-kedua)
   - [Elastic Cloud Computing](#elastic-cloud-computing)
-    - [Konfigurasi VPC (SKIP BILA MENGGUNAKAN VPC Default](#konfigurasi-vpc)
+    - [Konfigurasi VPC (SKIP BILA MENGGUNAKAN VPC Default)](#konfigurasi-vpc)
       - [Membuat VPC](#membuat-vpc)
 
 ---
@@ -26,11 +26,17 @@
 - Langkah-Langkah
   - Klik menu "Subnet" di sidebar kiri -> Klik tombol "Create Subnet"
     - VPC ID: `PILIH VPC YANG INGIN DI KAITKAN KE SUBNET`
-    - Subnet Name: `NAMA YANG INGIN DIGUNAKAN, CONTOH: 'VPC-A-Subnet'
-    - IPv4 CIDR Block: `SUBNET IPv4 YANG INGIN DIGUNAKAN (HARUS DALAM JANGKAUAN CIDR VPC), CONTOH: '10.100.0.0/24'
+    - Subnet Name: `NAMA YANG INGIN DIGUNAKAN, CONTOH: 'VPC-A-Subnet'`
+    - IPv4 CIDR Block: `SUBNET IPv4 YANG INGIN DIGUNAKAN (HARUS DALAM JANGKAUAN CIDR VPC), CONTOH: '10.100.0.0/24'`
 #### Membuat Internet Gateway
-- Langkah-langkah
+- Langkah-Langkah
   - Klik menu "Internet Gateway" -> Klik tombol "Create Internet Gateway"
-    - Name tag: `NAMA YANG INGIN DIGUNAKAN, Contoh: VPC-A-IGW`
+    - Name tag: `NAMA YANG INGIN DIGUNAKAN, Contoh: 'VPC-A-IGW'`
     - Kembali ke menu "Internet Gateway" -> Klik Internet Gateway yang sudah dibuat -> Klik Actions -> Attach to VPC -> Pilih VPC Yang dibuat -> Attach Internet Gateway
+#### Membuat Route Tables
+- Langkah-Langkah
+  - Klik menu "Route Tables" -> Klik tombol "Create Route Table"
+    - Name tag: `NAMA YANG INGIN DIGUNAKAN, Contoh: 'VPC-A-RT'`
+    - VPC: `PILIH VPC YANG INGIN DIGUNAKAN`
+  - Klik "Edit Routes" -> Add Route -> `Destinasi = Internet (0.0.0.0/0)` - `Target = Internet Gateway -> (VPC-A-IGW)`
     
