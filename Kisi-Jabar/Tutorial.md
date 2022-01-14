@@ -7,6 +7,7 @@
   - Konfigurasi VPC
     - Name: `VPC-1`
     - CIDR Block: `10.100.0.0/16`
+    - Edit DNS Hostnames menjadi 'Enable' menggunakan tombol `Actions`
   - Konfigurasi Subnet
     - Penjelasan  
     ```Membuat 4 Subnet, 2 Public dan 2 Private seperti yang diperintahkan dalam modul```
@@ -47,6 +48,7 @@
       - Nama: `RT Public A`
       - Availability Zone: 'A'
       - IPv4 CIDR: `10.100.10.0/24`
+      - Subnet Assosiation: Subnet Public A
       - Add Route:
         - Destination: `0.0.0.0/0` (artinya internet)
         - Target: Internet Gateway -> `IGW-VPC-1`
@@ -54,6 +56,7 @@
       - Nama: `RT Private A`
       - Availability Zone: 'A'
       - IPv4 CIDR: `10.100.11.0/24`
+      - Subnet Assosiation: Subnet Private A
       - Add Route:
         - Destination: `0.0.0.0/0` (artinya internet)
         - Target: NAT Gateway -> `NAT-A`
@@ -61,6 +64,7 @@
       - Nama: `RT Public B`
       - Availability Zone: 'B'
       - IPv4 CIDR: `10.100.20.0/24`
+      - Subnet Assosiation: Subnet Public B
       - Add Route:
         - Destination: `0.0.0.0/0` (artinya internet)
         - Target: Internet Gateway -> `IGW-VPC-1`
@@ -68,7 +72,51 @@
       - Nama: `RT Private B`
       - Availability Zone: 'B'
       - IPv4 CIDR: `10.100.21.0/24`
+      - Subnet Assosiation: Subnet Private B
       - Add Route:
         - Destination: `0.0.0.0/0` (artinya internet)
         - Target: NAT Gateway -> `NAT-A`
-   
+### 2. Konfigurasi EC2
+- Penjelasan  
+  ```Disini kita akan mengkonfigurasi Instances, Load Balancing, dan Auto Scaling yang harus lakukan untuk menyelesaikan modul ini```
+- Langkah-langkah
+  - Konfigurasi Launch Template
+    - Name: WebApp
+    - Application and OS Images 
+      - `Quick Start -> Ubuntu`
+      - AMI -> Pilih Terbaru
+    - Instance Type
+      - Pilih `Free tier eligible` dengan Spek tertinggi
+    - Network Setting
+      - `Don't include in launch template`
+    - Security Group 
+      - Buat baru dengan nama 'Security Group B'
+      - Add rule: HTTP dari Anywhere dan SSH dari Anywhere (anywhere artinya internet)
+    - User data
+      - Copy text dibawah
+      ```
+      #!/bin/bash
+      sudo apt-get update -y
+      sudo apt-get install apache2 -y
+      sudo apt install php libapache2-mod-php -y
+      sudo systemctl restart apache2
+      sudo chmod -R 777 /var/www/html
+      sudo mv /var/www/html/index.html /var/www/html/index.php
+      sudo echo "<?php phpinfo(); ?>" > /var/www/html/index.php
+      sudo systemctl start apache2
+      ```
+  - Konfigurasi Target Group
+    - Target Type: `Instances`
+    - Name: `TargetGroup`
+    - VPC: VPC-1
+    - Create Target Group
+  - Konfigurasi Load Balander
+    - Select `Application Load Balancer`
+    - Name: `LoadBalancer`
+    - VPC: Pilih 2 Subnet yang Public
+    - Security Group: Buat Baru dengan nama `'Security Group A'`
+      - Penjelasan
+      ```Membuat security group untuk load balancer sesuai perintah di modul```
+      - Add Rule
+        - Type: `HTTP`
+        - Source: `Anywhere`
