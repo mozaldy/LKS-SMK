@@ -1,9 +1,9 @@
 # TUTORIAL KISI-KISI LKS Provinsi Jawa Barat
 ## Modul 1
 ### 1. Konfigurasi VPC
-- Penjelasan  
+- #### Penjelasan  
   ```Membuat VPC dimana kita akan menempatkan semua proyek kita pada modul ini, kita akan membuat; VPC, Subnet Public, Subnet Private, Internet Gateway, NAT, Route Table```
-- Langkah-Langkah
+- #### Langkah-Langkah
   - Konfigurasi VPC
     - Name: `VPC-1`
     - CIDR Block: `10.100.0.0/16`
@@ -30,7 +30,7 @@
    - Konfigurasi Internet Gateway
      - Penjelasan  
      ```Internet Gateway dibutuhkan untuk menghubungkan Public Subnet ke intenet```
-     - Nama: `IGW-VPC-1`
+     - Nama: `VPC-1-IGW`
      - Attach to VPC-1
    - Konfigurasi NAT Gateway
      - Penjelasan  
@@ -77,34 +77,9 @@
         - Destination: `0.0.0.0/0` (artinya internet)
         - Target: NAT Gateway -> `NAT-A`
 ### 2. Konfigurasi EC2
-- Penjelasan  
+- #### Penjelasan  
   ```Disini kita akan mengkonfigurasi Instances, Load Balancing, dan Auto Scaling yang harus lakukan untuk menyelesaikan modul ini```
-- Langkah-langkah
-  - Konfigurasi Launch Template
-    - Name: WebApp
-    - Application and OS Images 
-      - `Quick Start -> Ubuntu`
-      - AMI -> Pilih Terbaru
-    - Instance Type
-      - Pilih `Free tier eligible` dengan Spek tertinggi
-    - Network Setting
-      - `Don't include in launch template`
-    - Security Group 
-      - Buat baru dengan nama 'Security Group B'
-      - Add rule: HTTP dari Anywhere dan SSH dari Anywhere (anywhere artinya internet)
-    - User data
-      - Copy text dibawah
-      ```
-      #!/bin/bash
-      sudo apt-get update -y
-      sudo apt-get install apache2 -y
-      sudo apt install php libapache2-mod-php -y
-      sudo systemctl restart apache2
-      sudo chmod -R 777 /var/www/html
-      sudo mv /var/www/html/index.html /var/www/html/index.php
-      sudo echo "<?php phpinfo(); ?>" > /var/www/html/index.php
-      sudo systemctl start apache2
-      ```
+- #### Langkah-langkah
   - Konfigurasi Target Group
     - Target Type: `Instances`
     - Name: `TargetGroup`
@@ -120,3 +95,49 @@
       - Add Rule
         - Type: `HTTP`
         - Source: `Anywhere`
+  - Konfigurasi Launch Template
+    - Name: UbuntuServerWeb
+    - Application and OS Images 
+      - `Quick Start -> Ubuntu`
+      - AMI -> Pilih Terbaru
+    - Instance Type
+      - Pilih `Free tier eligible` dengan Spek tertinggi
+    - Network Setting
+      - `Don't include in launch template`
+    - Security Group 
+      - Buat baru dengan nama 'Security Group B'
+      - Add rule: HTTP dari Anywhere dan SSH dari Anywhere (anywhere artinya internet)
+    - Advanced Details -> User data
+      #### Copy text dibawah
+      ```
+      #!/bin/bash
+      sudo apt-get update -y
+      sudo apt-get install apache2 -y
+      sudo apt install php libapache2-mod-php -y
+      sudo systemctl restart apache2
+      sudo chmod -R 777 /var/www/html
+      sudo mv /var/www/html/index.html /var/www/html/index.php
+      sudo echo "<?php phpinfo(); ?>" > /var/www/html/index.php
+      sudo systemctl start apache2
+      ```
+  - Konfigurasi Target Group
+    - Step 1
+      - Name: `myAutoScaling`
+      - Launch Template: `UbuntuServerWeb`
+      - Next
+    - Step 2
+      - VPC: `VPC-1`
+      - Availability Zones and Subnets: `Private Subnet A` Dan `Private Subnet B`
+      - Next
+    - Step 3
+      - Load Balancing: `Attach to an existing load balancer` -> `Choose from your load balancer target groups` -> `myTargetGroup | HTTP`
+      - Next
+    - Step 4
+      - Group Size:
+       -  Desired Capacity: `2`
+       -  Minimum Capacity: `1`
+       -  Maximum Capacity: `6`
+      - Scaling policies: `Target tracking scaling policy`
+      - Next
+    - Step 5 - terakhir
+      - Next
