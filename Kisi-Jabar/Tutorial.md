@@ -82,12 +82,12 @@
 - #### Langkah-langkah
   - Konfigurasi Target Group
     - Target Type: `Instances`
-    - Name: `TargetGroup`
+    - Name: `myTargetGroup`
     - VPC: VPC-1
     - Create Target Group
   - Konfigurasi Load Balander
     - Select `Application Load Balancer`
-    - Name: `LoadBalancer`
+    - Name: `myLoadBalancer`
     - VPC: Pilih 2 Subnet yang Public
     - Security Group: Buat Baru dengan nama `'Security Group A'`
       - Penjelasan
