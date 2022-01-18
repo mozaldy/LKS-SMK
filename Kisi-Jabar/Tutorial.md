@@ -141,6 +141,14 @@
       - Next
     - Step 5 - terakhir
       - Next
+### Modul 2
+#### Konfigurasi VPC
+   - Konfigurasi VPC
+   - Konfigurasi Subnet
+   - Konfigurasi Internet Gateway
+   - Konfigurasi NAT
+   - Konfigurasi Route Table
+#### Konfigurasi EC2
       ```
       #!/bin/bash
       sudo apt-get update -y
@@ -151,9 +159,17 @@
       sudo mv /var/www/html/index.html /var/www/html/index.php
       sudo echo "<?php phpinfo(); ?>" > /var/www/html/index.php
       sudo systemctl start apache2
+      ```
+      Konfigurasi Mount EFS
+      ```
       sudo apt-get -y install git binutils
       git clone https://github.com/aws/efs-utils
       cd /path/efs-utils
       ./build-deb.sh
       sudo apt-get -y install ./build/amazon-efs-utils*deb
       ```
+      Mount dengan NFS Client
+      ```
+      sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-057b31a12ae56e1cb.efs.ap-southeast-1.amazonaws.com:/ efs
+      ```
+  
