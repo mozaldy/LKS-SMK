@@ -141,3 +141,19 @@
       - Next
     - Step 5 - terakhir
       - Next
+      ```
+      #!/bin/bash
+      sudo apt-get update -y
+      sudo apt-get install apache2 -y
+      sudo apt install php libapache2-mod-php -y
+      sudo systemctl restart apache2
+      sudo chmod -R 777 /var/www/html
+      sudo mv /var/www/html/index.html /var/www/html/index.php
+      sudo echo "<?php phpinfo(); ?>" > /var/www/html/index.php
+      sudo systemctl start apache2
+      sudo apt-get -y install git binutils
+      git clone https://github.com/aws/efs-utils
+      cd /path/efs-utils
+      ./build-deb.sh
+      sudo apt-get -y install ./build/amazon-efs-utils*deb
+      ```
