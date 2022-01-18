@@ -149,7 +149,7 @@
    - Konfigurasi NAT
    - Konfigurasi Route Table
 #### Konfigurasi EC2
-
+  #!/bin/bash
       sudo apt-get update -y
       sudo apt-get install apache2 -y
       sudo apt install php libapache2-mod-php -y
@@ -170,5 +170,3 @@
       Mount dengan NFS Client
       
       sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-057b31a12ae56e1cb.efs.ap-southeast-1.amazonaws.com:/ efs
-      
-  
