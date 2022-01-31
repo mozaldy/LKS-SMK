@@ -32,6 +32,8 @@ $ wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.
 $ mkdir phpMyAdmin && tar -xvzf phpMyAdmin-latest-all-languages.tar.gz -C phpMyAdmin --strip-components 1
 $ rm phpMyAdmin-latest-all-languages.tar.gz
 $ chmod -R 777 writable uploads
+$ systemctl start mariadb-server
+$ sudo mysql_secure_installation
 ```
 **.env configurations.**  
 ```sh
@@ -50,25 +52,36 @@ database.default.password = root
 database.default.DBDriver = MySQL
 ```
 
-**Set the host:**  
+**Set host:**  
 ```sh
-$ sudo vim /etc/httpd/conf/httpd.conf   
+$ sudo nano /etc/httpd/conf/httpd.conf   
 ```
 
-**Add code at the bottom of the file**  
+**scroll ke bawah dan ganti **  
 
 ```blade
-<VirtualHost *:80>  
-	ServerName codeigniter.example.com  
-	DocumentRoot /var/www/html/speedrun/public  
-	<Directory /var/www/html/speedrun>  
-		AllowOverride All  
-	</Directory>  
-</VirtualHost>  
+<Directory "/var/www/html">
+    # The Options directive is both complicated and important.  Please see
+    # http://httpd.apache.org/docs/2.4/mod/core.html#options
+    # for more information.
+    #
+    Options Indexes FollowSymLinks
+
+    #
+    # AllowOverride controls what directives may be placed in .htaccess files.
+    # It can be "All", "None", or any combination of the keywords:
+    #   Options FileInfo AuthConfig Limit
+    #
+    AllowOverride All
+
+    #
+    # Controls who can get stuff from this server.
+    #
+    Require all granted
+</Directory>
+
 ```  
 
 ```sh
-$ sudo systemctl start httpd  
-$ sudo systemctl start php-fpm  
-$ sudo systemctl enable php-fpm  
+$ sudo systemctl start httpd    
 ```
