@@ -5,8 +5,9 @@
 $ sudo yum update -y  
 $ sudo amazon-linux-extras enable php7.4 -y  
 $ sudo yum clean metadata  
-$ sudo yum install  -y php php-{pear,cgi,common,curl,mbstring,gd,mysqlnd,gettext,bcmath,json,xml,fpm,intl,zip,imap}        
-$ php --version  
+$ sudo yum install -y php-{pear,cgi,common,curl,mbstring,gd,mysqlnd,gettext,bcmath,json,xml,fpm,intl,zip,imap}        
+$ sudo yum install -y httpd
+$ sudo yum install -y mariadb
 ```
 **Dependencies installation will take some time. After than set proper permissions on files.**  
 ```sh
@@ -28,14 +29,10 @@ $ cd html
 ```
 **Download Web App anda menggunakan Git**
 ```sh
-$ aws s3 cp s3://bucketanda/webanda.zip web
-$ unzip web  
-$ rm web
-$ mv web ../
-$ cd ../
+$ cd /var/www
 $ rmdir html
-$ mv web html
-$ cd html
+$ sudo yum install -y git
+$ git clone https://github.com/potatoedz/WebApp /var/www/html
 ```
 **Install PHPMyAdmin**
 ```sh
@@ -43,7 +40,7 @@ $ wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.
 $ mkdir phpMyAdmin && tar -xvzf phpMyAdmin-latest-all-languages.tar.gz -C phpMyAdmin --strip-components 1
 $ rm phpMyAdmin-latest-all-languages.tar.gz
 $ chmod -R 777 writable uploads
-$ systemctl start mariadb-server
+$ sudo systemctl start mariadb
 $ sudo mysql_secure_installation
 ```
 **.env configurations.**  
