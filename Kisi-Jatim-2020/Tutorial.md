@@ -26,6 +26,17 @@ $ rmdir html
 $ mv web html
 $ cd html
 ```
+**Download Web App anda menggunakan Git**
+```sh
+$ aws s3 cp s3://bucketanda/webanda.zip web
+$ unzip web  
+$ rm web
+$ mv web ../
+$ cd ../
+$ rmdir html
+$ mv web html
+$ cd html
+```
 **Install PHPMyAdmin**
 ```sh
 $ wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
