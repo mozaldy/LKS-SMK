@@ -1,23 +1,25 @@
 # TUTORIAL KISI-KISI LKS Provinsi Jawa Barat
-## EC2
+## SpeedRun Deploy Web App CodeIgniter ke AWS EC2
 ---  
+### EC2
     $ sudo yum update -y  
     $ sudo amazon-linux-extras enable php7.4 -y  
     $ sudo yum clean metadata  
     $ sudo yum install -y php-{pear,cgi,common,curl,mbstring,gd,mysqlnd,gettext,bcmath,json,xml,fpm,intl,zip,imap}        
-    $ sudo yum install -y httpd
-    $ sudo yum install -y mariadb-server
+    $ sudo yum install -y httpd mariadb-server
     
 **Setting permission/izin file.**  
 
     $ sudo usermod -a -G apache ec2-user
+    $ sudo su
+    $ su ec2-user
     $ sudo chown -R ec2-user:apache /var/www  
     $ sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {} \;  
-    $ find /var/www -type f -exec sudo chmod 0664 {} \;  
-    $ cd /var/www/html   
+    $ find /var/www -type f -exec sudo chmod 0664 {} \;    
     
 **Download Web App anda menggunakan s3**
 
+    $ cd /var/www/html 
     $ aws s3 cp s3://bucketanda/webanda.zip web
     $ unzip web  
     $ rm web
@@ -36,6 +38,7 @@
 
 **Install PHPMyAdmin**
 
+    $ cd html
     $ wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
     $ mkdir phpMyAdmin && tar -xvzf phpMyAdmin-latest-all-languages.tar.gz -C phpMyAdmin --strip-components 1
     $ rm phpMyAdmin-latest-all-languages.tar.gz
@@ -89,3 +92,10 @@
 </Directory>
 $ sudo systemctl restart httpd 
 ```  
+---
+
+### Setting database menggunakan phpMyAdmin
+- Buka phpMyAdmin di browser (http://IP.WEB.SERVER.ANDA/phpMyAdmin)
+  - Login menggunakan credential yang di konfigurasikan saat menjalankan mysql_secure_installation
+  - Klik New di sidebar kiri untuk menambahkan database baru, nama harus disesuaikan dengan settingn database di .env
+  - setelah itu impor database anda (sebelumnya harus sudah di export ke pc anda) 
