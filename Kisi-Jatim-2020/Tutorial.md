@@ -42,6 +42,7 @@ $ rm phpMyAdmin-latest-all-languages.tar.gz
 $ chmod -R 777 writable uploads
 $ sudo systemctl start mariadb
 $ sudo mysql_secure_installation
+$ sudo systemctl start httpd
 ```
 **.env configurations.**  
 ```sh
@@ -49,15 +50,15 @@ $ nano .env
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
-app.baseURL = 'http://13.250.55.208/'
+app.baseURL = 'http://13.250.55.208/' (isi ip web server anda)
 #--------------------------------------------------------------------
 # DATABASE
 #--------------------------------------------------------------------
-database.default.hostname = rds.ipaddress.host
-database.default.database = ci4
-database.default.username = root
-database.default.password = root
-database.default.DBDriver = MySQL
+database.default.hostname = localhost (atau) rds.ipaddress.host (bila menggunakan rds)
+database.default.database = database anda
+database.default.username = root (sesuai saat menjalankan mysql_secure_installation)
+database.default.password = root (sesuai saat menjalankan mysql_secure_installation)
+database.default.DBDriver = MySQLi (mariadb)
 ```
 
 **Set host:**  
@@ -91,5 +92,5 @@ $ sudo nano /etc/httpd/conf/httpd.conf
 ```  
 
 ```sh
-$ sudo systemctl start httpd    
+$ sudo systemctl restart httpd    
 ```
