@@ -1,5 +1,5 @@
 # TUTORIAL KISI-KISI LKS Provinsi Jawa Barat
-## SpeedRun Deploy Web App CodeIgniter ke AWS EC2
+## SpeedRun Deploy Web App CodeIgniter ke AWS EC2 (AMAZON LINUX MACHINE IMAAGE)
 ---  
 ### EC2
     $ sudo yum update -y  
@@ -99,3 +99,4 @@ $ sudo systemctl restart httpd
   - Login menggunakan credential yang di konfigurasikan saat menjalankan mysql_secure_installation
   - Klik New di sidebar kiri untuk menambahkan database baru, nama harus disesuaikan dengan settingn database di .env
   - setelah itu impor database anda (sebelumnya harus sudah di export ke pc anda) 
+
