@@ -99,4 +99,19 @@ $ sudo systemctl restart httpd
   - Login menggunakan credential yang di konfigurasikan saat menjalankan mysql_secure_installation
   - Klik New di sidebar kiri untuk menambahkan database baru, nama harus disesuaikan dengan settingn database di .env
   - setelah itu impor database anda (sebelumnya harus sudah di export ke pc anda) 
-
+### Menghubungkan phpMyAdmin Web Server ke RDS
+- ```Sebelum menghubungkan RDS ke web server anda pastikan bahwa security group RDS mengizinkan inbound traffic type mysql/aurora (port 3306) dari Web Server anda```
+- Buka Setup phpMyAdmin di browser (http://IP.WEB.SERVER.ANDA/phpMyAdmin/setup)
+  - New Server
+    - Basic setting -> `Server Hostname = database-1.crsgedzchyrc.ap-southeast-1.rds.amazonaws.com (endpoint RDS Yang sudah dibuat)`
+    - Authentication -> `Config Authentication -> User = admin Password = admin123`
+    - Apply
+  - Display
+    - Copy & paste ke EC2
+  - Di Instance Web Server
+  
+  ```
+  $ cd /var/www/html/phpMyAdmin
+  $ sudo nano config.inc.php
+  PASTE TEXT YANG DI COPY
+  ```
