@@ -115,3 +115,14 @@ $ sudo systemctl restart httpd
   $ sudo nano config.inc.php
   PASTE TEXT YANG DI COPY
   ```
+- Ganti konfigurasi Database Web Server
+  - sudo nano /var/www/html/.env
+  ```
+  database.default.hostname = databaseserver.crsgedzchyrc.ap-southeast-1.rds.amazonaws.com (sesuaikan dengan endpoint anda)
+  database.default.database = database anda
+  database.default.username = admin (sesuai saat menjalankan instance RDS Amazon)
+  database.default.password = admin123 (sesuai saat menjalankan instanceRDS Amazon)
+  database.default.DBDriver = MySQLi (jika menggunakan mariadb)
+  ```
+### Menerapkan Elastic File System (EFS)
+
