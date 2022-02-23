@@ -125,4 +125,12 @@ $ sudo systemctl restart httpd
   database.default.DBDriver = MySQLi (jika menggunakan mariadb)
   ```
 ### Menerapkan Elastic File System (EFS)
+  - jalankan EFS dan pastikan bahwa ada Mount Point yang bisa dimasuki oleh instance Web Server
+  - Tambah security group baru yang menerima all incoming traffic dari Security-Group Web Server
+  - Mount EFS di Instance Web Server
+  ```
+  cd /mnt
+  sudo mkdir efs
+  sudo mount -t efs -o tls fs-NOFSMILIKANDA:/ efs
+  ```  
 
